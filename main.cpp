@@ -13,7 +13,7 @@
 #include <driver/ledc.h>
 
 // Definciones
-#define servo 32
+#define servo 25
 
 #define LED_R 13
 #define LED_V 14
@@ -86,7 +86,7 @@ void IRAM_ATTR BTN1_ISR (void){
   if(tiempoActual - lastISRBtn1 > delayBounce){
     btn1Pressed = true;
     contador++;
-    if(contador==4){
+    if(contador==5){
       contador=0;
     }
     lastISRBtn1 = tiempoActual;
@@ -127,8 +127,8 @@ void IRAM_ATTR BTN3_ISR (void){
   if(tiempoActual3 - lastISRBtn3 > delayBounce){
     btn3Pressed = true;
     contadorS++;
-    if(contadorS>3){
-      contadorS=3;
+    if(contadorS>4){
+      contadorS=4;
     }
     lastISRBtn3 = tiempoActual3;
   }
@@ -183,7 +183,7 @@ void loop() {
   
   switch (contador){
     case 0:
-      break;
+    break;
     case 1: 
       switch (contadorR){
         case 0:
@@ -242,6 +242,41 @@ void loop() {
         ledcWrite(pwmChannel2, 49151);
         break;
       }
+    break;
+
+    case 4:
+      switch (contadorS){
+        case 0:
+        ledcWrite(pwmChannel, 0);
+        ledcWrite(pwmChannel1, 0);
+        ledcWrite(pwmChannel2, 0);
+        break;
+
+        case 1:
+        ledcWrite(pwmChannel, 49151);
+        ledcWrite(pwmChannel1, 0);
+        ledcWrite(pwmChannel2, 0);
+        break;
+
+        case 2:
+        ledcWrite(pwmChannel, 0);
+        ledcWrite(pwmChannel1, 49151);
+        ledcWrite(pwmChannel2, 0);
+        break;
+
+        case 3:
+        ledcWrite(pwmChannel, 0);
+        ledcWrite(pwmChannel1, 0);
+        ledcWrite(pwmChannel2, 49151);
+        break;
+
+        case 4:
+        ledcWrite(pwmChannel, 0);
+        ledcWrite(pwmChannel1, 0);
+        ledcWrite(pwmChannel2, 0);
+        break;
+      }
+    break;
   }
 
   switch(contadorS){
@@ -250,18 +285,21 @@ void loop() {
     break;
 
     case 1:
-    ledcWrite(pwmChannel3, 4369);
+    ledcWrite(pwmChannel3, 4096);
     break;
 
     case 2:
-    ledcWrite(pwmChannel3, 5461);
+    ledcWrite(pwmChannel3, 4915);
     break;
 
     case 3:
-    ledcWrite(pwmChannel3, 6554);
+    ledcWrite(pwmChannel3, 5734);
+    break;
+
+    case 4:
+    ledcWrite(pwmChannel3, 6553);
     break;
   }
-Serial.println(contadorS);
 }
 
 
